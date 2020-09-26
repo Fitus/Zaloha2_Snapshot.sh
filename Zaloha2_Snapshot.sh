@@ -111,7 +111,7 @@ Then, Zaloha_Snapshot is incompatible with some operation modes of Zaloha:
 
 INVOCATION
 
-Zaloha_Snapshot.sh --backupDir=<backupDir> --snapDir=<snapDir> [ other options ]
+Zaloha2_Snapshot.sh --backupDir=<backupDir> --snapDir=<snapDir> [ other opts ]
 
 --backupDir=<backupDir> is mandatory. <backupDir> must exist, otherwise Zaloha
     throws an error.
@@ -276,7 +276,7 @@ set -e
 set -o pipefail
 
 function error_exit {
-  echo "Zaloha_Snapshot.sh: ${1}" >&2
+  echo "Zaloha2_Snapshot.sh: ${1}" >&2
   exit 1
 }
 
@@ -362,7 +362,7 @@ do
     --mawk)              opt_dupli_check ${mawk} "${tmpVal}";        mawk=1 ;;
     --lTest)             opt_dupli_check ${lTest} "${tmpVal}";       lTest=1 ;;
     --help)              opt_dupli_check ${help} "${tmpVal}";        help=1 ;;
-    *) error_exit "Unknown option ${tmpVal//${CNTRLPATTERN}/${TRIPLETC}}, get help via Zaloha_Snapshot.sh --help" ;;
+    *) error_exit "Unknown option ${tmpVal//${CNTRLPATTERN}/${TRIPLETC}}, get help via Zaloha2_Snapshot.sh --help" ;;
   esac
 done
 
@@ -385,7 +385,7 @@ fi
 
 ###########################################################
 if [ "" == "${backupDir}" ]; then
-  error_exit "<backupDir> is mandatory, get help via Zaloha_Snapshot.sh --help"
+  error_exit "<backupDir> is mandatory, get help via Zaloha2_Snapshot.sh --help"
 fi
 if [ "${backupDir/${TRIPLET}/}" != "${backupDir}" ]; then
   error_exit "<backupDir> contains the directory separator triplet (${TRIPLET})"
@@ -405,7 +405,7 @@ backupDirEsc="${backupDirEsc//${NLINE}/${TRIPLETN}}"
 
 ###########################################################
 if [ "" == "${snapDir}" ]; then
-  error_exit "<snapDir> is mandatory, get help via Zaloha_Snapshot.sh --help"
+  error_exit "<snapDir> is mandatory, get help via Zaloha2_Snapshot.sh --help"
 fi
 if [ "${snapDir/${TRIPLET}/}" != "${snapDir}" ]; then
   error_exit "<snapDir> contains the directory separator triplet (${TRIPLET})"

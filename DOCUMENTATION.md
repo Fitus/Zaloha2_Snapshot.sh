@@ -85,7 +85,7 @@ Then, Zaloha_Snapshot is incompatible with some operation modes of Zaloha:
 ### INVOCATION
 
 <pre>
-<b>Zaloha_Snapshot.sh</b> <b>--backupDir</b>=&lt;backupDir&gt; <b>--snapDir</b>=&lt;snapDir&gt; [ other options ]
+<b>Zaloha2_Snapshot.sh</b> <b>--backupDir</b>=&lt;backupDir&gt; <b>--snapDir</b>=&lt;snapDir&gt; [ other opts ]
 
 <b>--backupDir</b>=&lt;backupDir&gt; is mandatory. &lt;backupDir&gt; must exist, otherwise Zaloha
     throws an error.
