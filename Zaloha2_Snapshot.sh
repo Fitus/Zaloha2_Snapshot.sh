@@ -549,6 +549,7 @@ stop_progress
 
 ###########################################################
 ${awk} -f "${f100}" << 'AWKSNAPSHOT' > "${f920}"
+DEFINE_ERROR_EXIT
 BEGIN {
   FS = FSTAB
   pin = 1         # parallel index
@@ -573,6 +574,9 @@ BEGIN {
   SECTION_LINE
 }
 {
+  if (( 17 != NF ) || ( TRIPLET != $1 ) || ( TRIPLET != $17 )) {
+    error_exit( "Incompatible CSV data model" )
+  }
   if (( $3 ~ /[df]/ ) && ( "" != $14 )) {
     pt = $14
     gsub( QUOTEREGEX, QUOTEESC, pt )
