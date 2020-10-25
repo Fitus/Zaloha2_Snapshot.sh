@@ -150,27 +150,32 @@ Zaloha_Snapshot (unlike Zaloha) does not prepare these scripts.
 In case of need, they should be prepared manually by running the AWK program 700
 on the CSV metadata file 505:
 
-  awk -f "&lt;AWK program 700&gt;"                \
-      -v backupDir="&lt;snapDir&gt;"              \
-      -v restoreDir="&lt;restoreDir&gt;"          \
-      -v f800="&lt;script 800 to be created&gt;"  \
-      -v f810="&lt;script 810 to be created&gt;"  \
-      -v f820="&lt;script 820 to be created&gt;"  \
-      -v f830="&lt;script 830 to be created&gt;"  \
-      -v f840="&lt;script 840 to be created&gt;"  \
-      -v f850="&lt;script 850 to be created&gt;"  \
-      -v f860="&lt;script 860 to be created&gt;"  \
-      -v noR800Hdr=0                        \
-      -v noR810Hdr=0                        \
-      -v noR820Hdr=0                        \
-      -v noR830Hdr=0                        \
-      -v noR840Hdr=0                        \
-      -v noR850Hdr=0                        \
-      -v noR860Hdr=0                        \
+  awk -f "&lt;AWK program 700&gt;"                  \
+      -v backupDir="&lt;snapDir&gt;"                \
+      -v restoreDir="&lt;restoreDir&gt;"            \
+      -v remoteBackup=&lt;0 or 1&gt;                \
+      -v backupUserHost="&lt;backupUserHost&gt;"    \
+      -v remoteRestore=&lt;0 or 1&gt;               \
+      -v restoreUserHost="&lt;restoreUserHost&gt;"  \
+      -v scpOptions="&lt;scpOptions&gt;"            \
+      -v f800="&lt;script 800 to be created&gt;"    \
+      -v f810="&lt;script 810 to be created&gt;"    \
+      -v f820="&lt;script 820 to be created&gt;"    \
+      -v f830="&lt;script 830 to be created&gt;"    \
+      -v f840="&lt;script 840 to be created&gt;"    \
+      -v f850="&lt;script 850 to be created&gt;"    \
+      -v f860="&lt;script 860 to be created&gt;"    \
+      -v noR800Hdr=&lt;0 or 1&gt;                   \
+      -v noR810Hdr=&lt;0 or 1&gt;                   \
+      -v noR820Hdr=&lt;0 or 1&gt;                   \
+      -v noR830Hdr=&lt;0 or 1&gt;                   \
+      -v noR840Hdr=&lt;0 or 1&gt;                   \
+      -v noR850Hdr=&lt;0 or 1&gt;                   \
+      -v noR860Hdr=&lt;0 or 1&gt;                   \
       "&lt;CSV metadata file 505&gt;"
 
 Note 1: All filenames/paths should begin with a "/" (if absolute) or with a "./"
-(if relative), and &lt;snapDir&gt; and &lt;restoreDir&gt; must end with terminating "/".
+(if relative), and &lt;snapDir&gt; and &lt;restoreDir&gt; must end with a terminating "/".
 
 Note 2: If any of the filenames/paths passed into AWK as variables (&lt;snapDir&gt;,
 &lt;restoreDir&gt; and the &lt;scripts 8xx to be created&gt;) contain backslashes as "weird
