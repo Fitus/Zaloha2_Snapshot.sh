@@ -181,7 +181,7 @@ on the CSV metadata file 505:
       -v backupUserHost="<backupUserHost>"    \
       -v remoteRestore=<0 or 1>               \
       -v restoreUserHost="<restoreUserHost>"  \
-      -v scpOptions="<scpOptions>"            \
+      -v scpExecOpt="<scpExecOpt>"            \
       -v f800="<script 800 to be created>"    \
       -v f810="<script 810 to be created>"    \
       -v f820="<script 820 to be created>"    \
