@@ -184,6 +184,7 @@ on the CSV metadata file 505:
       -v scpExecOpt="<scpExecOpt>"            \
       -v f800="<script 800 to be created>"    \
       -v f810="<script 810 to be created>"    \
+      -v f815="<script 815 to be created>"    \
       -v f820="<script 820 to be created>"    \
       -v f830="<script 830 to be created>"    \
       -v f840="<script 840 to be created>"    \
@@ -191,6 +192,7 @@ on the CSV metadata file 505:
       -v f860="<script 860 to be created>"    \
       -v noR800Hdr=<0 or 1>                   \
       -v noR810Hdr=<0 or 1>                   \
+      -v noR815Hdr=<0 or 1>                   \
       -v noR820Hdr=<0 or 1>                   \
       -v noR830Hdr=<0 or 1>                   \
       -v noR840Hdr=<0 or 1>                   \
