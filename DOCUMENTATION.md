@@ -144,7 +144,7 @@ relevant minimalistic test case.
 
 <pre>
 As a restore from a snapshot directory is a less likely scenario and the
-shellscripts for the case of restore (scripts 800 through 860) occupy space,
+shellscripts for the case of restore (scripts 800 through 870) occupy space,
 Zaloha_Snapshot (unlike Zaloha) does not prepare these scripts.
 
 In case of need, they should be prepared manually by running the AWK program 700
@@ -160,20 +160,20 @@ on the CSV metadata file 505:
       -v scpExecOpt="&lt;scpExecOpt&gt;"            \
       -v f800="&lt;script 800 to be created&gt;"    \
       -v f810="&lt;script 810 to be created&gt;"    \
-      -v f815="&lt;script 815 to be created&gt;"    \
       -v f820="&lt;script 820 to be created&gt;"    \
       -v f830="&lt;script 830 to be created&gt;"    \
       -v f840="&lt;script 840 to be created&gt;"    \
       -v f850="&lt;script 850 to be created&gt;"    \
       -v f860="&lt;script 860 to be created&gt;"    \
+      -v f870="&lt;script 870 to be created&gt;"    \
       -v noR800Hdr=&lt;0 or 1&gt;                   \
       -v noR810Hdr=&lt;0 or 1&gt;                   \
-      -v noR815Hdr=&lt;0 or 1&gt;                   \
       -v noR820Hdr=&lt;0 or 1&gt;                   \
       -v noR830Hdr=&lt;0 or 1&gt;                   \
       -v noR840Hdr=&lt;0 or 1&gt;                   \
       -v noR850Hdr=&lt;0 or 1&gt;                   \
       -v noR860Hdr=&lt;0 or 1&gt;                   \
+      -v noR870Hdr=&lt;0 or 1&gt;                   \
       "&lt;CSV metadata file 505&gt;"
 
 Note 1: All filenames/paths should begin with a "/" (if absolute) or with a "./"
