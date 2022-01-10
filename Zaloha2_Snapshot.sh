@@ -283,7 +283,7 @@ set -e
 set -o pipefail
 
 function error_exit {
-  echo "Zaloha2_Snapshot.sh: ${1}" >&2
+  printf 'Zaloha2_Snapshot.sh: %s\n' "${1}" >&2
   exit 1
 }
 
@@ -297,14 +297,14 @@ function opt_dupli_check {
 
 function start_progress {
   if [ ${noProgress} -eq 0 ]; then
-    echo -n "    ${1} ${DOTS60:1:$(( 53 - ${#1} ))}"
+    printf '    %s %s' "${1}" "${DOTS60:1:$(( 53 - ${#1} ))}"
     progressCurrColNo=58
   fi
 }
 
 function start_progress_by_chars {
   if [ ${noProgress} -eq 0 ]; then
-    echo -n "    ${1} "
+    printf '    %s ' "${1}"
     (( progressCurrColNo = ${#1} + 5 ))
   fi
 }
@@ -312,21 +312,21 @@ function start_progress_by_chars {
 function progress_char {
   if [ ${noProgress} -eq 0 ]; then
     if [ ${progressCurrColNo} -ge 80 ]; then
-      echo -ne "\n    "
+      printf '\n    '
       progressCurrColNo=4
     fi
-    echo -n "${1}"
-    (( progressCurrColNo++ ))
+    printf '%s' "${1}"
+    (( progressCurrColNo ++ ))
   fi
 }
 
 function stop_progress {
   if [ ${noProgress} -eq 0 ]; then
     if [ ${progressCurrColNo} -gt 58 ]; then
-      echo -ne "\n    "
+      printf '\n    '
       progressCurrColNo=4
     fi
-    echo "${BLANKS60:1:$(( 58 - ${progressCurrColNo} ))} done."
+    printf '%s done.\n' "${BLANKS60:1:$(( 58 - ${progressCurrColNo} ))}"
   fi
 }
 

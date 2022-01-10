@@ -23,6 +23,13 @@ make it executable (<code>chmod u+x Zaloha2_Snapshot.sh</code>).
 
 For running the Simple Demo, extract also the scripts <code>Simple_Demo_step1/2/3/4/5/6.sh</code> and make them executable.
 
+The integrity of Zaloha2_Snapshot.sh can be verified by its SHA-256 hash. The hash of current version is:
+
+```bash
+sha256sum Zaloha2_Snapshot.sh
+3dedd7bd775b7480a8361b469528719a09494f1ed25642b0fa6d46f63f922097  Zaloha2_Snapshot.sh
+```
+
 ## Usage Example
 
 ```bash
