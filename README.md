@@ -27,7 +27,7 @@ The integrity of Zaloha2_Snapshot.sh can be verified by its SHA-256 hash. The ha
 
 ```bash
 sha256sum Zaloha2_Snapshot.sh
-3dedd7bd775b7480a8361b469528719a09494f1ed25642b0fa6d46f63f922097  Zaloha2_Snapshot.sh
+305412a96bd33ecdc9281658b5ba1a5806eef679eb8f4514410ad27360a69376  Zaloha2_Snapshot.sh
 ```
 
 ## Usage Example

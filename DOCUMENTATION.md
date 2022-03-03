@@ -158,6 +158,7 @@ on the CSV metadata file 505:
       -v remoteRestore=&lt;0 or 1&gt;               \
       -v restoreUserHost="&lt;restoreUserHost&gt;"  \
       -v scpExecOpt="&lt;scpExecOpt&gt;"            \
+      -v cpRestoreOpt="&lt;cpRestoreOpt&gt;"        \
       -v f800="&lt;script 800 to be created&gt;"    \
       -v f810="&lt;script 810 to be created&gt;"    \
       -v f820="&lt;script 820 to be created&gt;"    \

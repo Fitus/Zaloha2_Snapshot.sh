@@ -182,6 +182,7 @@ on the CSV metadata file 505:
       -v remoteRestore=<0 or 1>               \
       -v restoreUserHost="<restoreUserHost>"  \
       -v scpExecOpt="<scpExecOpt>"            \
+      -v cpRestoreOpt="<cpRestoreOpt>"        \
       -v f800="<script 800 to be created>"    \
       -v f810="<script 810 to be created>"    \
       -v f820="<script 820 to be created>"    \
