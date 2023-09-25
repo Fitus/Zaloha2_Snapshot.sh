@@ -67,8 +67,8 @@ Then, Zaloha_Snapshot is incompatible with some operation modes of Zaloha:
 
  * as already stated above, the <b>--noUnlink</b> option must NOT be used
 
- * further, we say that the <b>--revNew</b> and <b>--revUp</b> options are also not
-   compatible, because they imply that there will be user activity on
+ * further, we say that the <b>--revNew,</b> <b>--revNewAll</b> and <b>--revUp</b> options are
+   also not compatible, because they imply that there will be user activity on
    &lt;backupDir&gt;, which is inconsistent with the whole concept.
 
  * further, &lt;backupDir&gt; and all snapshot directories should be accompanied by

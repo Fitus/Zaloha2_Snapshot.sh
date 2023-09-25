@@ -94,8 +94,8 @@ Then, Zaloha_Snapshot is incompatible with some operation modes of Zaloha:
 
  * as already stated above, the "--noUnlink" option must NOT be used
 
- * further, we say that the "--revNew" and "--revUp" options are also not
-   compatible, because they imply that there will be user activity on
+ * further, we say that the "--revNew", "--revNewAll" and "--revUp" options are
+   also not compatible, because they imply that there will be user activity on
    <backupDir>, which is inconsistent with the whole concept.
 
  * further, <backupDir> and all snapshot directories should be accompanied by
@@ -265,20 +265,23 @@ ZALOHASNAPDOCU
 
 # DEFINITIONS OF FILES COPIED FROM METADATA DIRECTORY OF ZALOHA
 
-f000Base="000_parameters.csv"        # parameters under which Zaloha was invoked and internal variables
-f100Base="100_awkpreproc.awk"        # AWK preprocessor for other AWK programs
-f505Base="505_target.csv"            # target state (includes Exec2 and Exec3 actions) of synchronized directories
-f700Base="700_restore.awk"           # AWK program for preparation of shellscripts for the case of restore
-f999Base="999_mark_executed"         # empty touchfile marking execution of actions
+metaDirBase='.Zaloha_metadata'
+
+f000Base='000_parameters.csv'        # parameters under which Zaloha was invoked and internal variables
+f100Base='100_awkpreproc.awk'        # AWK preprocessor for other AWK programs
+f505Base='505_target.csv'            # target state (includes Exec2, Exec3 (and Exec5 from SHA-256 comparing) actions) of synchronized directories
+f700Base='700_restore.awk'           # AWK program for preparation of shellscripts for the case of restore
+f999Base='999_mark_executed'         # empty touchfile marking execution of actions
 
 # FILES CREATED BY ZALOHA_SNAPSHOT
 
-f900Base="900_snapparam.csv"         # parameters under which Zaloha_Snapshot was invoked and internal variables
-f910Base="910_snapcheck.awk"         # AWK program for checking of compatibility of Zaloha parameters
-f920Base="920_snapshot.awk"          # AWK program for preparation of shellscript to create snapshot directory
-f930Base="930_snapshot.sh"           # shellscript to create snapshot directory
+f900Base='900_snapparam.csv'         # parameters under which Zaloha_Snapshot was invoked and internal variables
+f910Base='910_snapcheck.awk'         # AWK program for checking of compatibility of Zaloha parameters
+f920Base='920_snapshot.awk'          # AWK program for preparation of shellscript to create snapshot directory
+f930Base='930_snapshot.sh'           # shellscript to create snapshot directory
 
 ###########################################################
+
 set -u
 set -e
 set -o pipefail
@@ -346,6 +349,7 @@ printf -v BLANKS60 '%60s' ' '
 DOTS60="${BLANKS60// /.}"
 
 ###########################################################
+
 backupDir=
 backupDirPassed=0
 snapDir=
@@ -380,70 +384,71 @@ if [ ${help} -eq 1 ]; then
 fi
 
 if [ ${noSnapHdr} -eq 1 ] && [ ${noExec} -eq 0 ]; then
-  error_exit "Option --noSnapHdr can be used only together with option --noExec"
+  error_exit 'Option --noSnapHdr can be used only together with option --noExec'
 fi
 
 if [ ${mawk} -eq 1 ]; then
-  awk="mawk"
+  awk='mawk'
 elif [ ${lTest} -eq 1 ]; then
-  awk="awk -Lfatal"
+  awk='awk -Lfatal'
 else
-  awk="awk"
+  awk='awk'
 fi
 
 ###########################################################
-if [ "" == "${backupDir}" ]; then
-  error_exit "<backupDir> is mandatory, get help via Zaloha2_Snapshot.sh --help"
+
+if [ '' == "${backupDir}" ]; then
+  error_exit '<backupDir> is mandatory, get help via Zaloha2_Snapshot.sh --help'
 fi
 if [ "${backupDir/${TRIPLET}/}" != "${backupDir}" ]; then
   error_exit "<backupDir> contains the directory separator triplet (${TRIPLET})"
 fi
-if [ "/" != "${backupDir:0:1}" ] && [ "./" != "${backupDir:0:2}" ]; then
+if [ '/' != "${backupDir:0:1}" ] && [ './' != "${backupDir:0:2}" ]; then
   backupDir="./${backupDir}"
 fi
-if [ "/" != "${backupDir: -1:1}" ]; then
+if [ '/' != "${backupDir: -1:1}" ]; then
   backupDir="${backupDir}/"
 fi
 if [ ! -d "${backupDir}" ]; then
-  error_exit "<backupDir> is not a directory"
+  error_exit '<backupDir> is not a directory'
 fi
 backupDirAwk="${backupDir//${BSLASHPATTERN}/${TRIPLETB}}"
 backupDirEsc="${backupDir//${TAB}/${TRIPLETT}}"
 backupDirEsc="${backupDirEsc//${NLINE}/${TRIPLETN}}"
 
 ###########################################################
-if [ "" == "${snapDir}" ]; then
-  error_exit "<snapDir> is mandatory, get help via Zaloha2_Snapshot.sh --help"
+
+if [ '' == "${snapDir}" ]; then
+  error_exit '<snapDir> is mandatory, get help via Zaloha2_Snapshot.sh --help'
 fi
 if [ "${snapDir/${TRIPLET}/}" != "${snapDir}" ]; then
   error_exit "<snapDir> contains the directory separator triplet (${TRIPLET})"
 fi
-if [ "/" != "${snapDir:0:1}" ] && [ "./" != "${snapDir:0:2}" ]; then
+if [ '/' != "${snapDir:0:1}" ] && [ './' != "${snapDir:0:2}" ]; then
   snapDir="./${snapDir}"
 fi
-if [ "/" != "${snapDir: -1:1}" ]; then
+if [ '/' != "${snapDir: -1:1}" ]; then
   snapDir="${snapDir}/"
 fi
 if [ -e "${snapDir}" ]; then
-  error_exit "<snapDir> already exists"
+  error_exit '<snapDir> already exists'
 fi
 snapDirAwk="${snapDir//${BSLASHPATTERN}/${TRIPLETB}}"
 snapDirEsc="${snapDir//${TAB}/${TRIPLETT}}"
 snapDirEsc="${snapDirEsc//${NLINE}/${TRIPLETN}}"
 
 ###########################################################
-metaDirInternalBase=".Zaloha_metadata"
 
-metaDirBackup="${backupDir}${metaDirInternalBase}/"
+metaDirBackup="${backupDir}${metaDirBase}/"
 metaDirBackupEsc="${metaDirBackup//${TAB}/${TRIPLETT}}"
 metaDirBackupEsc="${metaDirBackupEsc//${NLINE}/${TRIPLETN}}"
 
-metaDirSnap="${snapDir}${metaDirInternalBase}/"
+metaDirSnap="${snapDir}${metaDirBase}/"
 metaDirSnapEsc="${metaDirSnap//${TAB}/${TRIPLETT}}"
 metaDirSnapEsc="${metaDirSnapEsc//${NLINE}/${TRIPLETN}}"
 
 if [ ! -d "${metaDirBackup}" ]; then
-  error_exit "Zaloha metadata directory of <backupDir> does not exist where expected"
+  error_exit 'Zaloha metadata directory of <backupDir> does not exist where expected'
 fi
 if [ ! -f "${metaDirBackup}${f000Base}" ]; then
   error_exit "Zaloha metadata file ${f000Base} of <backupDir> does not exist where expected"
@@ -461,7 +466,7 @@ if [ ! -f "${metaDirBackup}${f999Base}" ]; then
   error_exit "Zaloha metadata file ${f999Base} of <backupDir> does not exist where expected"
 fi
 if [ "${metaDirBackup}${f000Base}" -nt "${metaDirBackup}${f999Base}" ]; then
-  error_exit "The actions prepared by Zaloha have not yet been executed"
+  error_exit 'The actions prepared by Zaloha have not yet been executed'
 fi
 
 ###########################################################
@@ -476,7 +481,7 @@ f920="${metaDirSnap}${f920Base}"
 f930="${metaDirSnap}${f930Base}"
 f999="${metaDirSnap}${f999Base}"
 
-start_progress "Copying select files from Zaloha metadata directory"
+start_progress 'Copying select files from Zaloha metadata directory'
 
 mkdir -p "${metaDirSnap}"
 
@@ -488,6 +493,7 @@ cp --preserve=timestamps "${metaDirBackup}${f700Base}" "${f700}"
 stop_progress
 
 ###########################################################
+
 ${awk} '{ print }' << SNAPPARAMFILE > "${f900}"
 ${TRIPLET}${FSTAB}backupDir${FSTAB}${backupDir}${FSTAB}${TRIPLET}
 ${TRIPLET}${FSTAB}backupDirAwk${FSTAB}${backupDirAwk}${FSTAB}${TRIPLET}
@@ -508,12 +514,14 @@ ${TRIPLET}${FSTAB}lTest${FSTAB}${lTest}${FSTAB}${TRIPLET}
 SNAPPARAMFILE
 
 ###########################################################
+
 ${awk} -f "${f100}" << 'AWKSNAPCHECK' > "${f910}"
 DEFINE_ERROR_EXIT
 BEGIN {
   FS = FSTAB
   noUnlinkChecked = 0
   revNewChecked = 0
+  revNewAllChecked = 0
   revUpChecked = 0
 }
 {
@@ -528,6 +536,11 @@ BEGIN {
         error_exit( "Option --revNew of Zaloha is incompatible with Zaloha_Snapshot" )
       }
       revNewChecked = 1
+    } else if ( "revNewAll" == $2 ) {
+      if ( "0" != $3 ) {
+        error_exit( "Option --revNewAll of Zaloha is incompatible with Zaloha_Snapshot" )
+      }
+      revNewAllChecked = 1
     } else if ( "revUp" == $2 ) {
       if ( "0" != $3 ) {
         error_exit( "Option --revUp of Zaloha is incompatible with Zaloha_Snapshot" )
@@ -543,19 +556,23 @@ END {
   if ( 1 != revNewChecked ) {
     error_exit( "Unexpected, option --revNew does not exist in Zaloha parameters file" )
   }
+  if ( 1 != revNewAllChecked ) {
+    error_exit( "Unexpected, option --revNewAll does not exist in Zaloha parameters file" )
+  }
   if ( 1 != revUpChecked ) {
     error_exit( "Unexpected, option --revUp does not exist in Zaloha parameters file" )
   }
 }
 AWKSNAPCHECK
 
-start_progress "Checking of compatibility of Zaloha parameters"
+start_progress 'Checking of compatibility of Zaloha parameters'
 
 ${awk} -f "${f910}" "${f000}"
 
 stop_progress
 
 ###########################################################
+
 ${awk} -f "${f100}" << 'AWKSNAPSHOT' > "${f920}"
 DEFINE_ERROR_EXIT
 BEGIN {
@@ -617,7 +634,7 @@ END {
 }
 AWKSNAPSHOT
 
-start_progress "Preparing shellscript to create snapshot directory"
+start_progress 'Preparing shellscript to create snapshot directory'
 
 ${awk} -f "${f920}"                    \
        -v backupDir="${backupDirAwk}"  \
@@ -632,7 +649,7 @@ stop_progress
 
 if [ ${saveSpace} -eq 1 ]; then
 
-  start_progress "Compressing CSV metadata file 505"
+  start_progress 'Compressing CSV metadata file 505'
 
   gzip "${f505}"
 
@@ -648,7 +665,7 @@ if [ ${noExec} -eq 1 ]; then
   exit 0
 fi
 
-start_progress_by_chars "Creating snapshot directory"
+start_progress_by_chars 'Creating snapshot directory'
 
 source "${f930}"
 
@@ -658,7 +675,7 @@ stop_progress
 
 if [ ${saveSpace} -eq 1 ]; then
 
-  start_progress "Removing shellscript to create snapshot directory"
+  start_progress 'Removing shellscript to create snapshot directory'
 
   rm -f "${f930}"
 
@@ -668,7 +685,7 @@ fi
 
 ###########################################################
 
-start_progress "Copying file 999 from Zaloha metadata directory"
+start_progress 'Copying file 999 from Zaloha metadata directory'
 
 cp --preserve=timestamps "${metaDirBackup}${f999Base}" "${f999}"
 
